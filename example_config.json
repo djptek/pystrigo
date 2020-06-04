@@ -1,0 +1,39 @@
+{
+  "auth": {
+    "org_id": "xxxxxxxxxxxxxxxxx",
+    "api_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  "event": {
+    "host": "app.strigo.io",
+    "id": "xxxxxxxxxxxxxxxxx",
+    "email": [
+      "person1@elastic.co",
+      "person2@elastic.co",
+      "person3@elastic.co"
+    ]
+  },
+  "actions": {
+    "local": [
+      {
+        "username": "ubuntu",
+        "command": "echo \"strigo run remote `date`\" >> strigo_run_remote.log"
+      },
+      {
+        "username": "elastic",
+        "command": "echo \"strigo run remote `date`\" >> strigo_run_remote.log"
+      }
+    ],
+    "remote": [
+      {
+        "username": "elastic",
+        "server": "server1",
+        "command": "echo \"strigo run remote `date`\" >> strigo_run_remote.log"
+      },
+      {
+        "username": "elastic",
+        "server": "server1",
+        "command": "echo \"strigo run remote `date`\" >> strigo_run_remote.log"
+      }
+    ]
+  }
+}
