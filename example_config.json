@@ -7,33 +7,52 @@
     "host": "app.strigo.io",
     "id": "xxxxxxxxxxxxxxxxx",
     "email": [
-      "person1@elastic.co",
-      "person2@elastic.co",
-      "person3@elastic.co"
+      "xxxxxxxxxxxx@xxxxxxxxxx",
+      "yyyyyyyyyyyy@yyyyyyyyyy",
+      "zzzzzzzzzzzz@zzzzzzzzzz"
     ]
   },
-  "actions": {
-    "local": [
-      {
-        "username": "ubuntu",
-        "command": "echo \"strigo run remote `date`\" >> strigo_run_remote.log"
-      },
-      {
-        "username": "elastic",
-        "command": "echo \"strigo run remote `date`\" >> strigo_run_remote.log"
-      }
-    ],
-    "remote": [
-      {
-        "username": "elastic",
-        "server": "server1",
-        "command": "echo \"strigo run remote `date`\" >> strigo_run_remote.log"
-      },
-      {
-        "username": "elastic",
-        "server": "server1",
-        "command": "echo \"strigo run remote `date`\" >> strigo_run_remote.log"
-      }
-    ]
+  "cmds": {
+    "scp": {
+      "local": [
+        {
+          "username": "ubuntu",
+          "from": "test.txt",
+          "to": "test.txt"
+        },
+        {
+          "username": "elastic",
+          "from": "test.txt",
+          "to": "test.txt"
+        }
+      ],
+      "remote": [
+        {
+          "username": "elastic",
+          "server": "server1",
+          "from": "test.txt",
+          "to": "test.txt"
+        }
+      ]
+    },
+    "ssh": {
+      "local": [
+        {
+          "username": "ubuntu",
+          "command": "echo \"strigo run remote `date`\" >> strigo_run_remote.log"
+        },
+        {
+          "username": "elastic",
+          "command": "echo \"strigo run remote `date`\" >> strigo_run_remote.log"
+        }
+      ],
+      "remote": [
+        {
+          "username": "elastic",
+          "server": "server1",
+          "command": "echo \"strigo run remote `date`\" >> strigo_run_remote.log"
+        }
+      ]
+    }
   }
 }

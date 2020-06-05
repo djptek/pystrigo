@@ -5,19 +5,28 @@ from json.decoder import JSONDecoder
 class ConfigReader:
     def __init__(self, filename):
         with open("config.json", "r") as config_file:
-            self.config = JSONDecoder().decode(config_file.read())
+            config = JSONDecoder().decode(config_file.read())
+            self.auth = config["auth"]
+            self.event = config["event"]
+            self.cmds = config["cmds"]
 
-    def get_actions(self, local_or_remote):
-        if local_or_remote in self.config["actions"]:
-            return self.config["actions"][local_or_remote]
+    def get(self, ssh_or_scp, local_or_remote):
+        if local_or_remote in self.config[ssh_or_scp]:
+            return self.config[ssh_or_scp][local_or_remote]
         else:
             return None
 
-    def dump_actions(self):
-        for env in self.config["actions"]:
-            for action in self.config["actions"][env]:
-                print("execute $ {} on {} as {}"
-                      .format(action["command"],
-                              (lambda x: action["server"]
-                                  if env == "remote" else "local server")(env),
-                              action["username"]))
+    def dump_cmds(self):
+        for ssh_or_scp in self.cmds:
+            for env in self.cmds[ssh_or_scp]:
+                for cmd in self.cmds[ssh_or_scp][env]:
+                    print("{}: {} on {} as {}"
+                          .format(ssh_or_scp,
+                                  (lambda x: cmd["command"]
+                                      if x == "ssh" else "{} to {}".format(
+                                      cmd["from"],
+                                      cmd["to"]
+                                  ))(ssh_or_scp),
+                                  (lambda x: cmd["server"]
+                                      if x == "remote" else "local server")(env),
+                                  cmd["username"]))

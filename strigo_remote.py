@@ -20,18 +20,35 @@ def run_action(env, action):
                             action["username"], action["server"], y))
                        (env, action["command"]))])
 
+def cmd_args(host, ssh_or_scp, env, cmd):
+    if ssh_or_scp == "ssh":
+        return ["ssh",
+                "-o", "StrictHostKeyChecking=no",
+                "-i", "~/.ssh/elastic_training.pem",
+                "{}@{}".format(cmd["username"], host),
+                "{}".format((lambda x, y:
+                             y if x == "local"
+                             else "ssh -o StrictHostKeyChecking=no {}@{} \"{}\"".format(
+                                 cmd["username"], cmd["server"], y))
+                            (env, cmd["command"]))]
 
+def generate_cmds(conf, host):
+    for ssh_or_scp in ["ssh", "ssh"]:
+        for env in conf.cmds[ssh_or_scp]:
+            for cmd in conf.cmds[ssh_or_scp][env]:
+                print(" ".join(cmd_args(host, ssh_or_scp, env, cmd)))
 ### main
 cr = ConfigReader("config.json")
-cr.dump_actions()
-if input("Run this action list [N/y]?") == "y":
+#cr.dump_cmds()
+generate_cmds(cr, "...")
+if input("Run this command list [N/y]?") == "y":
     strigo_service = Service(cr.config["auth"], cr.config["event"]["host"])
     for workspace in Event(cr.config["event"]["id"]) \
             .get_workspaces(strigo_service):
         if check_email(workspace.owner_email, cr.config["event"]):
-            print("Sending actions for Email {}"
+            print("Sending ssh for Email {}"
                   .format(workspace.owner_email))
             for resource in workspace.get_resources(strigo_service):
-                for env in cr.config["actions"]:
-                    for action in cr.config["actions"][env]:
+                for env in cr.config["ssh"]:
+                    for action in cr.config["ssh"][env]:
                         run_action(env, action)
