@@ -22,7 +22,7 @@ def run_action(env, action):
 
 def cmd_args(host, ssh_or_scp, env, cmd):
     if ssh_or_scp == "ssh":
-        return ["ssh",
+        return [ssh_or_scp,
                 "-o", "StrictHostKeyChecking=no",
                 "-i", "~/.ssh/elastic_training.pem",
                 "{}@{}".format(cmd["username"], host),
