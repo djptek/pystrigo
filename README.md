@@ -8,4 +8,4 @@ Python tools to help manage ongoing training classes in Strigo
 `strigo_copy_file.py`
 - placeholder
 
-more docs to follow...
+some fun with Lamdas in here
